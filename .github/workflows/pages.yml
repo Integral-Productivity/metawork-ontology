@@ -30,25 +30,31 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Render ontology to static site
         run: python tools/build_site.py site
-      - name: Every minted IRI maps to a file
+      - name: Every minted IRI maps to a file under the metawork/ prefix
+        # Project site: integral-productivity.github.io/metawork-ontology/<path>.
+        # ontology-hub's Worker maps https://ontology.integralproductivity.com<path>
+        # to it for the registered prefix /metawork/ and its turtle /metawork.ttl,
+        # so every IRI path must exist under site/ at the same path.
         run: |
           python - <<'EOF'
           from rdflib import Graph
           from pathlib import Path
           g = Graph().parse("ontology/metawork.ttl", format="turtle")
           base = "https://ontology.integralproductivity.com"
+          prefix, turtle = "/metawork/", "/metawork.ttl"
+          site = Path("site")
           missing = []
           for s in {str(x) for x in g.subjects()}:
               if not s.startswith(base): continue
-              if s.startswith(base + "/metawork/vocab/"):
-                  p = Path("site/metawork/vocab") / s.split("/vocab/")[1] / "index.html"
-              elif s.startswith(base + "/metawork#") or s == base + "/metawork":
-                  p = Path("site/metawork/index.html")
-              else:
-                  p = Path("site/__none__")
-              if not p.exists(): missing.append(s)
-          assert not missing, f"IRIs without a page: {missing}"
-          print("all IRIs resolve to a file")
+              path = s[len(base):].split("#")[0]
+              if path == prefix.rstrip("/"): path = prefix
+              if not path.startswith(prefix): missing.append(s); continue
+              f = site / path.lstrip("/") / "index.html"
+              if not f.exists(): missing.append(s)
+          assert not missing, f"IRIs without a page under {prefix}: {missing}"
+          assert (site / turtle.lstrip("/")).exists(), f"{turtle} missing"
+          assert not (site / "CNAME").exists(), "project site must not carry a CNAME (the hub owns the domain)"
+          print("all IRIs resolve to a file under", prefix)
           EOF
       - uses: actions/upload-pages-artifact@v3
         with:
