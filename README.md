@@ -5,6 +5,8 @@
 >
 > **Published at <https://ontology.integralproductivity.com/metawork/>** — every
 > IRI in the ontology resolves to a page there; `metawork.ttl` is served alongside.
+> This repo publishes a GitHub Pages project site; the domain, path registry and
+> router live in [`ontology-hub`](https://github.com/Integral-Productivity/ontology-hub).
 
 A formal, inspectable, testable vocabulary for **Meta Work** — the intentional
 practice of planning, monitoring, and maintaining perspective, instantiated
@@ -29,7 +31,7 @@ competency-questions/       # Gherkin: the questions the ontology must answer
 examples/                   # valid-/invalid-groups.ttl, valid-/invalid-decisions.ttl (pinned results)
 fixtures/                   # copy of the plugin's JSON Schema, asserted in sync (CQ-15)
 tools/metawork_ontology.py  # load / lift markdown frontmatter to RDF / validate
-tools/build_site.py         # render the ontology to the published site (GitHub Pages)
+tools/build_site.py         # render the ontology to the project site, under the metawork/ prefix
 tests/                      # one test per @CQ-nn, plus shape guards
 docs/adr/                   # modeling decisions
 ```
