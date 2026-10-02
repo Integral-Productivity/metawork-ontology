@@ -1,0 +1,23 @@
+docs/adr/0005-shared-tooling-package-and-reusable-workflow.md
+  s_8b9e363fba2913::t_c382c30ca1b03c 111-113
+  s_8b9e363fba2913::t_54d8a5432874b7 1-95,97-98,102-103,106-110,114-144
+  s_8b9e363fba2913::t_e5e0e83db5f2a4 104-105
+  s_8b9e363fba2913::t_3907e07c8c0fd9 96
+  s_8b9e363fba2913::t_e0960f74efc24c 99-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "672fb1281577e50d167659978b07cb2f7e8e8baa",
+  "prompts": {},
+  "sessions": {
+    "s_8b9e363fba2913": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "91a7c2e4-1440-4db9-a447-11ce1dfb59b2",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Kraig Parkinson <kraigparkinson@integralproductivity.com>"
+    }
+  }
+}
