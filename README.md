@@ -2,6 +2,9 @@
 
 > **Status:** v0.1.0 — vocabulary and conformance shapes for the Meta Work
 > methodology. First consumer: `metawork-claude-plugin` (see ADR-0003).
+>
+> **Published at <https://ontology.integralproductivity.com/metawork/>** — every
+> IRI in the ontology resolves to a page there; `metawork.ttl` is served alongside.
 
 A formal, inspectable, testable vocabulary for **Meta Work** — the intentional
 practice of planning, monitoring, and maintaining perspective, instantiated
@@ -25,6 +28,7 @@ competency-questions/       # Gherkin: the questions the ontology must answer
 examples/                   # valid-groups.ttl (conforms) / invalid-groups.ttl (3 pinned violations)
 fixtures/                   # copy of the plugin's JSON Schema, asserted in sync (CQ-15)
 tools/metawork_ontology.py  # load / lift markdown frontmatter to RDF / validate
+tools/build_site.py         # render the ontology to the published site (GitHub Pages)
 tests/                      # one test per @CQ-nn, plus shape guards
 docs/adr/                   # modeling decisions
 ```
