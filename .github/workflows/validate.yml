@@ -18,8 +18,10 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Turtle parses
         run: |
-          python -c "import rdflib; [rdflib.Graph().parse(f, format='turtle') for f in ['ontology/metawork.ttl','shapes/metawork-group.shacl.ttl','examples/valid-groups.ttl','examples/invalid-groups.ttl']]"
+          python -c "import glob, rdflib; [rdflib.Graph().parse(f, format='turtle') for f in ['ontology/metawork.ttl', *sorted(glob.glob('shapes/*.ttl')), *sorted(glob.glob('examples/*.ttl'))]]"
       - name: Valid examples conform
-        run: python tools/metawork_ontology.py validate examples/valid-groups.ttl
+        run: |
+          python tools/metawork_ontology.py validate examples/valid-groups.ttl
+          python tools/metawork_ontology.py validate examples/valid-groups.ttl examples/valid-decisions.ttl
       - name: Competency questions and shapes
         run: python -m pytest -q
