@@ -1,0 +1,65 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["ontology/**", "tools/build_site.py", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Render ontology to static site
+        run: python tools/build_site.py site
+      - name: Every minted IRI maps to a file
+        run: |
+          python - <<'EOF'
+          from rdflib import Graph
+          from pathlib import Path
+          g = Graph().parse("ontology/metawork.ttl", format="turtle")
+          base = "https://ontology.integralproductivity.com"
+          missing = []
+          for s in {str(x) for x in g.subjects()}:
+              if not s.startswith(base): continue
+              if s.startswith(base + "/metawork/vocab/"):
+                  p = Path("site/metawork/vocab") / s.split("/vocab/")[1] / "index.html"
+              elif s.startswith(base + "/metawork#") or s == base + "/metawork":
+                  p = Path("site/metawork/index.html")
+              else:
+                  p = Path("site/__none__")
+              if not p.exists(): missing.append(s)
+          assert not missing, f"IRIs without a page: {missing}"
+          print("all IRIs resolve to a file")
+          EOF
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
