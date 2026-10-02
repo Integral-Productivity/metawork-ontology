@@ -1,10 +1,15 @@
 """Render the Meta Work ontology to a static site for GitHub Pages.
 
+The site is a project site (integral-productivity.github.io/metawork-ontology/)
+with no custom domain. Files sit under the `metawork/` prefix registered in
+Integral-Productivity/ontology-hub, whose Worker serves them at
+ontology.integralproductivity.com. The hub, not this repo, owns the domain and
+the root landing page.
+
 Output layout (so that every minted IRI resolves):
 
   site/
-  ├── CNAME                         ontology.integralproductivity.com
-  ├── index.html                    list of published ontologies
+  ├── index.html                    project-site root: link to metawork/ (not served on the domain)
   ├── metawork.ttl                  the machine-readable file
   ├── metawork/index.html           schema + all schemes, with #anchors for mw: terms
   └── metawork/vocab/<slug>/index.html   one page per SKOS concept / scheme
@@ -152,12 +157,10 @@ def ontology_page(g: Graph) -> str:
 
 
 def root_page() -> str:
-    body = f"""<h1>Integral Productivity ontologies</h1>
-<p>Formal, inspectable, testable vocabularies for the frameworks Integral Productivity uses and creates. Each ontology is a public repository with competency questions, conformance shapes, and architecture decision records; concerns are raised as issues.</p>
-<table><tr><th>Ontology</th><th>Status</th><th>Source</th></tr>
-<tr><td><a href="/metawork/">Meta Work</a></td><td>v0.1.0</td><td><a href="{REPO}">metawork-ontology</a></td></tr></table>
-<p class="muted">Stewardship: Integral Productivity LLC; to be transferred to the Integral Productivity Institute once established.</p>"""
-    return page("Integral Productivity ontologies", body)
+    # Only reachable at the project-site URL; on the domain, "/" belongs to ontology-hub.
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Meta Work ontology</title>
+<meta http-equiv="refresh" content="0; url=https://{HOST}/metawork/"><link rel="canonical" href="https://{HOST}/metawork/"></head>
+<body><p>The Meta Work ontology is published at <a href="https://{HOST}/metawork/">https://{HOST}/metawork/</a>.</p></body></html>"""
 
 
 def build(out: Path) -> int:
@@ -165,7 +168,6 @@ def build(out: Path) -> int:
     if out.exists():
         shutil.rmtree(out)
     (out / "metawork" / "vocab").mkdir(parents=True)
-    (out / "CNAME").write_text(HOST + "\n")
     (out / ".nojekyll").write_text("")
     (out / "index.html").write_text(root_page(), encoding="utf-8")
     shutil.copy(TTL, out / "metawork.ttl")
