@@ -1,0 +1,21 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "mw": "https://ontology.integralproductivity.com/metawork#",
+    "mwv": "https://ontology.integralproductivity.com/metawork/vocab/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+
+    "MetaWorkGroup": "mw:MetaWorkGroup",
+
+    "subject": "mw:subject",
+    "life_domain": "mw:lifeDomain",
+    "parent": { "@id": "mw:parent", "@type": "@id" },
+    "horizons_of_focus": { "@id": "mw:horizonsOfFocus", "@type": "@id" },
+    "system_strata": { "@id": "mw:systemStrata", "@type": "@id" },
+    "vertical_development_stage": { "@id": "mw:verticalDevelopmentStage", "@type": "@id" },
+    "cynefin_domain": { "@id": "mw:cynefinDomain", "@type": "@id" },
+    "neurological_level": { "@id": "mw:neurologicalLevel", "@type": "@id" },
+    "perspective_checks": { "@id": "mw:perspectiveCheck", "@type": "@id", "@container": "@set" },
+    "backend": { "@id": "mw:backend", "@type": "@id" }
+  }
+}

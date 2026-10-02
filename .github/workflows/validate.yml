@@ -1,0 +1,25 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ontology:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Turtle parses
+        run: |
+          python -c "import rdflib; [rdflib.Graph().parse(f, format='turtle') for f in ['ontology/metawork.ttl','shapes/metawork-group.shacl.ttl','examples/valid-groups.ttl','examples/invalid-groups.ttl']]"
+      - name: Valid examples conform
+        run: python tools/metawork_ontology.py validate examples/valid-groups.ttl
+      - name: Competency questions and shapes
+        run: python -m pytest -q
