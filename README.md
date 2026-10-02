@@ -23,9 +23,10 @@ ontology/
 ├── metawork.ttl            # SKOS vocabulary + minimal RDFS/OWL schema
 └── context.jsonld          # JSON-LD context for the plugin's YAML keys
 shapes/
-└── metawork-group.shacl.ttl  # SHACL shapes = fitness functions for instance data
+├── metawork-group.shacl.ttl    # SHACL shapes = fitness functions for instance data
+└── scope-axis-mismatch.shacl.ttl  # metawork-diagnose pattern as a shape (sh:Warning)
 competency-questions/       # Gherkin: the questions the ontology must answer
-examples/                   # valid-groups.ttl (conforms) / invalid-groups.ttl (3 pinned violations)
+examples/                   # valid-/invalid-groups.ttl, valid-/invalid-decisions.ttl (pinned results)
 fixtures/                   # copy of the plugin's JSON Schema, asserted in sync (CQ-15)
 tools/metawork_ontology.py  # load / lift markdown frontmatter to RDF / validate
 tools/build_site.py         # render the ontology to the published site (GitHub Pages)
@@ -57,11 +58,44 @@ naming the group, the property, and the rule it broke.
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                                              # 19 checks
+python -m pytest -q                                              # 24 checks
 python tools/metawork_ontology.py validate examples/valid-groups.ttl
 python tools/metawork_ontology.py validate examples/invalid-groups.ttl   # 3 violations, by design
 python tools/metawork_ontology.py lift "~/MetaWork/Vocational/Praxis/Overview.md"   # markdown backend → RDF → validate
+python tools/metawork_ontology.py validate examples/valid-groups.ttl examples/invalid-decisions.ttl  # 2 mismatch warnings + 1 violation
+python tools/metawork_ontology.py validate group.md --at 20000ft-areas-focus-responsibility   # scope-axis mismatch check
 ```
+
+## Scope-axis mismatch (diagnostic shape)
+
+`shapes/scope-axis-mismatch.shacl.ttl` expresses the `metawork-diagnose`
+pattern *scope-axis mismatch*: a group scoped at one `horizons_of_focus` is
+being used to make decisions at another. A group's frontmatter records its
+scope, not its use, so the check needs one more input: an `mw:Decision`.
+
+Input contract, as triples (the ontology must be loaded alongside, which
+`validate` does):
+
+```turtle
+<decision>  a mw:Decision ;
+    mw:inGroup          <group> ;            # exactly one; must be an mw:MetaWorkGroup
+    mw:decisionAltitude mwv:hof-20000ft ;    # exactly one Horizons of Focus concept
+    mw:statement        "optional free text" .
+<group>     mw:horizonsOfFocus mwv:hof-10000ft .   # from the group itself
+```
+
+From the markdown backend there is no new frontmatter field: `lift` the
+group file as before and pass the decision altitude on the command line as
+a `horizons_of_focus` notation (`--at`, plus optional `--statement`). In
+Python, `decision_to_rdf(group_iri(path), notation, ont)` builds the same
+triples.
+
+A mismatch is reported as `sh:Warning`, not `sh:Violation`: neither the
+group nor the decision is malformed, and one deliberate zoom-out is not a
+breakdown. A malformed decision (no altitude, unknown notation, no group)
+is a `sh:Violation`. `validate` exits 1 for either; read the severity
+(`Severity: sh:Warning` in the text report, or `mo.findings()`) to tell
+them apart.
 
 ## Contributing a concern
 

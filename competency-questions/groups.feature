@@ -29,3 +29,14 @@ Feature: Meta Work Group conformance
     Given the Meta Work ontology
     When I list the narrower concepts of "Backend"
     Then they are "OmniFocus backend" and "Markdown directory backend"
+
+  @CQ-16
+  Scenario: A group used at a different altitude than it is scoped at is flagged as a scope-axis mismatch
+    Given the SHACL shapes and the ontology
+    And a Decision records the Meta Work Group it is worked in and the Horizons of Focus altitude it is made at
+    When I validate examples/valid-groups.ttl with examples/valid-decisions.ttl
+    Then it conforms, because every decision is made at its group's horizons_of_focus
+    When I validate examples/valid-groups.ttl with examples/invalid-decisions.ttl
+    Then the 20,000 ft question in the 10,000 ft project group is reported as a scope-axis mismatch warning naming both altitudes
+    And the 10,000 ft question in the 20,000 ft area group is reported the same way
+    And a decision with no altitude is a violation, not a mismatch

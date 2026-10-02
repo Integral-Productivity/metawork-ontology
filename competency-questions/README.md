@@ -37,3 +37,4 @@ without an executable step is marked `@pending` and counts as a known gap.
 | CQ-13 | Which backends can hold a Meta Work Group? | groups.feature |
 | CQ-14 | Where does each concept's definition come from (provenance)? | provenance.feature |
 | CQ-15 | Does the plugin's YAML schema use exactly the ontology's vocabulary? | provenance.feature |
+| CQ-16 | Is a group being used at a different altitude than it is scoped at (scope-axis mismatch)? | groups.feature |
