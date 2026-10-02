@@ -6,6 +6,14 @@ Date: 2026-10-02
 
 Accepted
 
+Superseded in part by
+[ontology-hub ADR-0001](https://github.com/Integral-Productivity/ontology-hub/blob/main/docs/adr/0001-hub-owns-the-domain.md)
+(2026-10-02, issue #1): the registry, router, root landing page and the
+GitHub Pages custom domain moved to `Integral-Productivity/ontology-hub`,
+and `/metawork/` is now a `project-site` prefix. The naming scheme,
+content negotiation, versioning and persistence decisions below still hold.
+The text below is left as it was decided.
+
 ## Context
 
 `metawork-ontology` publishes at `https://ontology.integralproductivity.com/metawork/`
