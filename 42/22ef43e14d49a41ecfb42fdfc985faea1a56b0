@@ -1,0 +1,32 @@
+tools/metawork_ontology.py
+  s_812f5694d0c9ad::t_bfe4d09bcbbc0f 5,14,37,64,137
+.github/workflows/pages.yml
+  s_812f5694d0c9ad::t_bfe4d09bcbbc0f 3-4,8,12,16-24
+tests/test_site.py
+  s_812f5694d0c9ad::t_e0038252fcef6e 1-51
+.github/workflows/validate.yml
+  s_812f5694d0c9ad::t_bfe4d09bcbbc0f 3-5,13-19
+tools/site_hooks.py
+  s_812f5694d0c9ad::t_0d4a8c356cfde8 1-45
+requirements.txt
+  s_812f5694d0c9ad::t_bfe4d09bcbbc0f 1
+README.md
+  s_812f5694d0c9ad::t_247026e85eb50f 34,63,69,72-76
+  s_812f5694d0c9ad::t_3bb4be3e9ef711 77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4222ef43e14d49a41ecfb42fdfc985faea1a56b0",
+  "prompts": {},
+  "sessions": {
+    "s_812f5694d0c9ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "51d29e36-1b05-4f2c-9524-d97bfb2aa5df",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Kraig Parkinson <kraigparkinson@integralproductivity.com>"
+    }
+  }
+}
