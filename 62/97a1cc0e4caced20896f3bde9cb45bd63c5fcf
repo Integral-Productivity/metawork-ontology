@@ -1,0 +1,21 @@
+.claude/hooks/install-git-ai.sh
+  s_5e0f90c515b5fb::t_75921c7319cbba 1-39
+.claude/settings.json
+  s_5e0f90c515b5fb::t_c6c639bb62a894 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6297a1cc0e4caced20896f3bde9cb45bd63c5fcf",
+  "prompts": {},
+  "sessions": {
+    "s_5e0f90c515b5fb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "58c1c753-6f28-4269-ac02-02413e40b5f4",
+        "model": "unknown"
+      },
+      "human_author": "Kraig Parkinson <kraigparkinson@integralproductivity.com>"
+    }
+  }
+}
