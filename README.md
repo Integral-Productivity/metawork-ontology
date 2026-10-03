@@ -31,7 +31,7 @@ competency-questions/       # Gherkin: the questions the ontology must answer
 examples/                   # valid-/invalid-groups.ttl, valid-/invalid-decisions.ttl (pinned results)
 fixtures/                   # copy of the plugin's JSON Schema, asserted in sync (CQ-15)
 tools/metawork_ontology.py  # load / lift markdown frontmatter to RDF / validate
-tools/build_site.py         # render the ontology to the project site, under the metawork/ prefix
+tools/site_hooks.py         # this repo's page hooks for ontology-tooling's site builder (ADR-0005)
 tests/                      # one test per @CQ-nn, plus shape guards
 docs/adr/                   # modeling decisions
 ```
@@ -60,13 +60,20 @@ naming the group, the property, and the rule it broke.
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                                              # 24 checks
+python -m pytest -q                                              # 28 checks
 python tools/metawork_ontology.py validate examples/valid-groups.ttl
 python tools/metawork_ontology.py validate examples/invalid-groups.ttl   # 3 violations, by design
 python tools/metawork_ontology.py lift "~/MetaWork/Vocational/Praxis/Overview.md"   # markdown backend → RDF → validate
 python tools/metawork_ontology.py validate examples/valid-groups.ttl examples/invalid-decisions.ttl  # 2 mismatch warnings + 1 violation
 python tools/metawork_ontology.py validate group.md --at 20000ft-areas-focus-responsibility   # scope-axis mismatch check
+ontology-tooling build --out site --site-class site_hooks:MetaworkSite && ontology-tooling check-iris --site site
 ```
+
+The site builder, the IRI-to-file check, the hub rules and the dated snapshots
+(`/metawork/v/<version>/`) come from
+[ontology-tooling](https://github.com/Integral-Productivity/ontology-tooling), pinned
+in `requirements.txt` by tag and in both workflows' `uses:` lines by that tag's commit
+(ADR-0005). Bump the three pins together.
 
 ## Scope-axis mismatch (diagnostic shape)
 

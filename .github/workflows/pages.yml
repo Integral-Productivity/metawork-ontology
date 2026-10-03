@@ -1,71 +1,25 @@
 name: pages
 
+# Build, IRI check and deploy come from ontology-tooling (ADR-0005, decision 3).
+# Pinned by commit (the tag's commit, named in the comment); requirements.txt pins the
+# same tag. Bump all three together.
 on:
   push:
     branches: [main]
-    paths: ["ontology/**", "tools/build_site.py", ".github/workflows/pages.yml"]
+  pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-      - run: pip install -r requirements.txt
-      - name: Render ontology to static site
-        run: python tools/build_site.py site
-      - name: Every minted IRI maps to a file under the metawork/ prefix
-        # Project site: integral-productivity.github.io/metawork-ontology/<path>.
-        # ontology-hub's Worker maps https://ontology.integralproductivity.com<path>
-        # to it for the registered prefix /metawork/ and its turtle /metawork.ttl,
-        # so every IRI path must exist under site/ at the same path.
-        run: |
-          python - <<'EOF'
-          from rdflib import Graph
-          from pathlib import Path
-          g = Graph().parse("ontology/metawork.ttl", format="turtle")
-          base = "https://ontology.integralproductivity.com"
-          prefix, turtle = "/metawork/", "/metawork.ttl"
-          site = Path("site")
-          missing = []
-          for s in {str(x) for x in g.subjects()}:
-              if not s.startswith(base): continue
-              path = s[len(base):].split("#")[0]
-              if path == prefix.rstrip("/"): path = prefix
-              if not path.startswith(prefix): missing.append(s); continue
-              f = site / path.lstrip("/") / "index.html"
-              if not f.exists(): missing.append(s)
-          assert not missing, f"IRIs without a page under {prefix}: {missing}"
-          assert (site / turtle.lstrip("/")).exists(), f"{turtle} missing"
-          assert not (site / "CNAME").exists(), "project site must not carry a CNAME (the hub owns the domain)"
-          print("all IRIs resolve to a file under", prefix)
-          EOF
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+  pages:
+    uses: Integral-Productivity/ontology-tooling/.github/workflows/pages.yml@1e2a9e86427ae1a28974aff8bb60bc438dfe99f3 # v0.1.1
+    # GitHub rejects the run at startup without these, even on pull requests.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    with:
+      site-class: site_hooks:MetaworkSite
