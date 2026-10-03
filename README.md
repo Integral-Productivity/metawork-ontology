@@ -72,8 +72,8 @@ ontology-tooling build --out site --site-class site_hooks:MetaworkSite && ontolo
 The site builder, the IRI-to-file check, the hub rules and the dated snapshots
 (`/metawork/v/<version>/`) come from
 [ontology-tooling](https://github.com/Integral-Productivity/ontology-tooling), pinned
-in `requirements.txt` and in both workflows' `uses:` lines (ADR-0005). Bump the three
-pins together.
+in `requirements.txt` by tag and in both workflows' `uses:` lines by that tag's commit
+(ADR-0005). Bump the three pins together.
 
 ## Scope-axis mismatch (diagnostic shape)
 

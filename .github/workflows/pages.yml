@@ -1,7 +1,8 @@
 name: pages
 
 # Build, IRI check and deploy come from ontology-tooling (ADR-0005, decision 3).
-# Pin the same tag here and in requirements.txt, and bump both together.
+# Pinned by commit (the tag's commit, named in the comment); requirements.txt pins the
+# same tag. Bump all three together.
 on:
   push:
     branches: [main]
@@ -14,7 +15,7 @@ concurrency:
 
 jobs:
   pages:
-    uses: Integral-Productivity/ontology-tooling/.github/workflows/pages.yml@v0.1.1
+    uses: Integral-Productivity/ontology-tooling/.github/workflows/pages.yml@1e2a9e86427ae1a28974aff8bb60bc438dfe99f3 # v0.1.1
     # GitHub rejects the run at startup without these, even on pull requests.
     permissions:
       contents: read
