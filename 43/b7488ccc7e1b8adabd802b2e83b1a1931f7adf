@@ -1,0 +1,23 @@
+.github/workflows/pages.yml
+  s_812f5694d0c9ad::t_542599ee600e71 4-5,18
+.github/workflows/validate.yml
+  s_812f5694d0c9ad::t_542599ee600e71 4-5,13-15,18
+README.md
+  s_812f5694d0c9ad::t_f9c7a0a2cca3d3 75-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "43b7488ccc7e1b8adabd802b2e83b1a1931f7adf",
+  "prompts": {},
+  "sessions": {
+    "s_812f5694d0c9ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "51d29e36-1b05-4f2c-9524-d97bfb2aa5df",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Kraig Parkinson <kraigparkinson@integralproductivity.com>"
+    }
+  }
+}
