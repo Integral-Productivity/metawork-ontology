@@ -70,11 +70,11 @@ ontology-tooling build --out site --site-class site_hooks:MetaworkSite && ontolo
 ```
 
 The site builder, the IRI-to-file check, the hub rules and the dated snapshots
-(`/metawork/v/<version>/`, published for tagged versions only: push the `vX.Y.Z` tag,
-then rebuild `main`) come from
+(`/metawork/v/<version>/`, published for tagged versions only; pushing a `vX.Y.Z` tag
+rebuilds `main` through `release-pages.yml`) come from
 [ontology-tooling](https://github.com/Integral-Productivity/ontology-tooling), pinned
-in `requirements.txt` by tag and in both workflows' `uses:` lines by that tag's commit
-(ADR-0005). Bump the three pins together.
+in `requirements.txt` by tag and in the three workflows' `uses:` lines by that tag's commit
+(ADR-0005). Bump the four pins together; `tests/test_workflows.py` fails when they differ.
 
 ## Scope-axis mismatch (diagnostic shape)
 

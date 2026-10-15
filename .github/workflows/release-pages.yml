@@ -1,0 +1,16 @@
+name: release-pages
+
+# Pushing a release tag vX.Y.Z starts pages.yml on main, so the tag's snapshot
+# /metawork/v/<version>/ is published without a further push to main
+# (ontology-tooling#12). Only tagged versions get a snapshot (ontology-tooling#8).
+# Pinned with pages.yml, validate.yml and requirements.txt; bump all four together.
+# Push release tags one at a time: GitHub starts no workflow for more than three.
+on:
+  push:
+    tags: ['v*.*.*']
+
+jobs:
+  release-pages:
+    uses: Integral-Productivity/ontology-tooling/.github/workflows/release-pages.yml@73d965db8f227c92a125b7a817485795f0c0b654 # v0.3.0
+    permissions:
+      actions: write

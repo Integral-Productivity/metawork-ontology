@@ -1,7 +1,7 @@
 name: validate
 
 # Turtle parsing, example conformance and the test run come from ontology-tooling
-# (ADR-0005, decision 3). Pinned by the v0.2.0 tag's commit; requirements.txt pins the
+# (ADR-0005, decision 3). Pinned by the v0.3.0 tag's commit; requirements.txt pins the
 # same tag. Bump all three together.
 # Lifting .md frontmatter stays in tools/metawork_ontology.py and is tested by pytest.
 on:
@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   validate:
-    uses: Integral-Productivity/ontology-tooling/.github/workflows/validate.yml@d4a1aa540b49fc927c2b6d255d64c0367a13943a # v0.2.0
+    uses: Integral-Productivity/ontology-tooling/.github/workflows/validate.yml@73d965db8f227c92a125b7a817485795f0c0b654 # v0.3.0
     with:
       examples: |
         examples/valid-groups.ttl
