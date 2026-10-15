@@ -1,0 +1,29 @@
+.github/workflows/pages.yml
+  s_812f5694d0c9ad::t_2349f5efeda20d 18
+tools/site_hooks.py
+  s_812f5694d0c9ad::t_2349f5efeda20d 29-31
+requirements.txt
+  s_812f5694d0c9ad::t_2349f5efeda20d 1
+.github/workflows/validate.yml
+  s_812f5694d0c9ad::t_2349f5efeda20d 4,18
+tests/test_site.py
+  s_812f5694d0c9ad::t_2349f5efeda20d 35-47
+README.md
+  s_812f5694d0c9ad::t_41e8d68fd6fb4d 73-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "641139867501f73211e6e189ec8621d1a6bd0b73",
+  "prompts": {},
+  "sessions": {
+    "s_812f5694d0c9ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "51d29e36-1b05-4f2c-9524-d97bfb2aa5df",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Kraig Parkinson <kraigparkinson@integralproductivity.com>"
+    }
+  }
+}
