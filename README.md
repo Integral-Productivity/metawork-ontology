@@ -70,7 +70,8 @@ ontology-tooling build --out site --site-class site_hooks:MetaworkSite && ontolo
 ```
 
 The site builder, the IRI-to-file check, the hub rules and the dated snapshots
-(`/metawork/v/<version>/`) come from
+(`/metawork/v/<version>/`, published for tagged versions only: push the `vX.Y.Z` tag,
+then rebuild `main`) come from
 [ontology-tooling](https://github.com/Integral-Productivity/ontology-tooling), pinned
 in `requirements.txt` by tag and in both workflows' `uses:` lines by that tag's commit
 (ADR-0005). Bump the three pins together.

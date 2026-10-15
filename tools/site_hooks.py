@@ -26,10 +26,9 @@ class MetaworkSite(Site):
     def footer_extra(self) -> str:
         return f' · <a href="{REPO}">source and issues</a>'
 
-    def page(self, title: str, body: str, crumbs: str) -> str:
-        # The hub owns "/" on the domain. The ontology page builds its crumbs
-        # without crumbs(), so the leading link is added here, once, for every page.
-        return super().page(title, body, f'<a href="/">ontologies</a> › {crumbs}')
+    def root_crumbs(self) -> list[str]:
+        # The hub owns "/" on the domain.
+        return ['<a href="/">ontologies</a>']
 
     def ontology_sections(self) -> str:
         derived = "".join(
