@@ -32,11 +32,19 @@ def test_hub_rules_hold(site_dir):
     assert hub_rule_violations(out, site.name) == []
 
 
-def test_snapshot_of_current_version(site_dir):
-    out, site = site_dir
-    snap = out / "metawork" / "v" / site.version
-    assert (snap / "index.html").is_file()
-    assert (snap / "metawork.ttl").read_bytes() == mo.ONTOLOGY.read_bytes()
+def test_untagged_current_version_has_no_snapshot(site_dir):
+    """ontology-tooling v0.2.0: only a tagged version gets /metawork/v/<version>/."""
+    out, _ = site_dir
+    assert not (out / "metawork" / "v").exists()
+
+
+def test_released_version_gets_a_snapshot(tmp_path):
+    data = mo.ONTOLOGY.read_bytes()
+    version = site_hooks.MetaworkSite(Graph().parse(data=data, format="turtle")).version
+    site = build(tmp_path, mo.ONTOLOGY, site_hooks.MetaworkSite, releases={version: data})
+    snap = tmp_path / "metawork" / "v" / site.version
+    assert (snap / "metawork.ttl").read_bytes() == data
+    assert f'<a href="/metawork/v/{site.version}/">' in (tmp_path / "metawork" / "index.html").read_text(encoding="utf-8")
 
 
 def test_repository_specific_content(site_dir):
